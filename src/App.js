@@ -30,6 +30,22 @@ class Pin extends React.Component {
     }
 }
 
+class Helper {
+    static getVariables(str) {
+        return str.match(/[A-Za-z_]+/g);
+    }
+}
+
+class ArrayHelper {
+    static flatten(array) {
+        return array.reduce((acc, e) => acc.concat(e), []);
+    }
+
+    static unique(array) {
+        return Array.from(new Set(array));
+    }
+}
+
 class Node extends React.Component {
     constructor(props) {
         super(props);
@@ -39,13 +55,9 @@ class Node extends React.Component {
         const right = formula.split("=")[1];
 
         this.state = {
-            left: this.getVariables(left),
-            right: this.getVariables(right),
+            left: Helper.getVariables(left),
+            right: Helper.getVariables(right),
         };
-    }
-
-    getVariables(str) {
-        return str.match(/[A-Za-z_]+/g);
     }
 
     formatFormula(formula) {
@@ -137,10 +149,25 @@ class App extends Component {
         setTimeout(() => this.loadCAS(), 200);
     }
 
+    casCommand(command) {
+        console.log(command);
+        return window.applet1.evalCommandCAS(command);
+    }
+
+    casSolve(equations, variables) {
+        const command = "Solve({" + equations.join(",") + "}, {" + variables.join(",") + "})";
+        return this.casCommand(command);
+    }
+
     onLoadedCAS() {
-
-        // Calculate...
-
+        const equations = this.state.nodes.map(node => node.formula);
+        equations.push("v = 3");
+        equations.push("m = 2");
+        equations.push("g = 5");
+        const variables = ArrayHelper.unique(ArrayHelper.flatten(equations.map(equation => Helper.getVariables(equation))));
+        // const variables = ["m", "v"];
+        const result = this.casSolve(equations, variables);
+        console.log("result", result);
     }
 
     onMouseMove(e) {
