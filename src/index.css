@@ -1,14 +1,69 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: url('/background.png');
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.node {
+    position: absolute;
+    border: 1px solid #999;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+    display: flex;
+    padding: 5px 0;
+}
+
+.pin-container {
+    flex: none;
+}
+
+.math {
+    flex: none;
+    padding: 10px 30px;
+    align-self: center;
+}
+
+.pin {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.pin-left {
+    margin-left: -8px;
+}
+
+.pin-right {
+    margin-right: -8px;
+}
+
+.pin .connector {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #999;
+    background: #FFF;
+    border-radius: 6px;
+}
+
+.pin-left .connector {
+    margin-right: 10px;
+}
+
+.pin-right .connector {
+    margin-left: 10px;
+}
+
+.pin .name {
+
 }

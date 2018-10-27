@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "algebrite": "^1.2.0",
+    "konva": "^2.5.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
+    "react-konva": "^16.6.0",
+    "react-mathjax": "^1.0.1",
     "react-scripts": "2.0.5"
   },
   "scripts": {
