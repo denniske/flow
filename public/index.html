@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,92 +22,12 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
-  </head>
-  <body>
-  <script>
+</head>
+<body>
 
-      var latestVersion="5.0.504.0";
-      var module = "web3d";
-      var defaultParams = {};
-      var prerelease = false;
-      var debug = false;
-      var startDelay = 0;
-      var marginTop = 0;
-      var analyticsVersion = 'V'+latestVersion;
-      var appOnline=true;
-      var translation = {};
-      var codebase = "https://cdn.geogebra.org/apps/latest/";
-
-
-      function installWorker(){
-          window.GGBT_offlineRequestHandler = (function() {
-              "use strict";
-              function isServiceWorkerSupported() {
-                  return 'serviceWorker' in navigator && location.protocol === "https:";
-              }
-              function registerServiceWorker() {
-                  //TODO: will be cool for offline working. Not ready for push messages yet, too small browser support, too many quirks
-                  if (navigator.serviceWorker.controller) {
-                      console.log("service worker already controlling the page");
-                  } else {
-                      navigator.serviceWorker.register('/sworker.js', {
-                          scope: '/'
-                      });
-                  }
-              }
-              function initServiceWorker() {
-                  if (isServiceWorkerSupported()) {
-                      registerServiceWorker();
-                  } else {
-                      console.log("service workers not supported");
-                  }
-              }
-              return {
-                  initServiceWorker : initServiceWorker,
-              };
-          })();
-          window.GGBT_offlineRequestHandler.initServiceWorker();
-      }
-
-      function insertScript(){
-          var app = document.createElement("script");
-          app.setAttribute("src",codebase+module+"/js/webfont.js");
-          document.head.appendChild(app);
-
-          app = document.createElement("script");
-          app.setAttribute("src",codebase+module+"/"+module+".nocache.js");
-          window.setTimeout(function(){
-              document.head.appendChild(app);
-          }, startDelay);
-      }
-
-
-      // installWorker();
-      // insertScript();
-
-  </script>
-    <div id="applet_container1"></div>
-
-  <!--<article style="display:none" id="ggbApplet" data-param-usebrowserforjs="false" data-param-app="true" data-param-showappspicker="true" class="geogebraweb" data-param-appname="classic" data-param-margintop="0" data-param-perspective="4" tabindex="10" style="height: 100%; border-width: 0px; border-style: solid; outline-style: none;" aria-label="GeoGebra Classic" data-scalex="1" data-scaley="1"></article>-->
-
+<div id="applet_container1"></div>
 <img src="spinner.gif"/>
+<div id="root"></div>
 
-
-
-
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+</body>
 </html>
