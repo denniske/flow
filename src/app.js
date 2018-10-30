@@ -10,6 +10,7 @@ import {Helper} from "./util/helper";
 import {Parameter} from "./view/parameter";
 import {Constant} from "./view/constant";
 import {EquationHelper} from "./util/equation-helper";
+import {ParameterActionCreator} from "./actions/parameter";
 
 
 class App extends Component {
@@ -21,10 +22,13 @@ class App extends Component {
                 // ParameterActionCreator.addParameter("m_e", "9.109*10^-31"),
                 // ParameterActionCreator.addParameter("U_B", "10"),
 
-                ConstantActionCreator.addConstant("e", "1.602*10^-19"),
+                ParameterActionCreator.addParameter("a", "1"),
+                ParameterActionCreator.addParameter("b", "2"),
+
+                // ConstantActionCreator.addConstant("e", "1.602*10^-19"),
 
 
-                NodeActionCreator.addNode("1=e", 250, 100),
+                NodeActionCreator.addNode("a+b=c", 250, 100),
 
                 // NodeActionCreator.addNode("1/2 * m * (v)^2 = E_kin", 250, 100),
                 // AssignmentActionCreator.addAssignment(1, "m", "m_e"),
@@ -152,7 +156,6 @@ class App extends Component {
     }
 
     handleParameterChange(symbol, value) {
-
         this.setState(merge({}, this.state, {
             parameters: {
                 [symbol]: {

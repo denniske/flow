@@ -56,6 +56,12 @@ export class Node extends React.Component {
         return latex;
     }
 
+    componentDidMount() {
+
+        console.log("mount", this.props.formula);
+
+    }
+
     handleChange(value, count) {
         console.log("VALUE when element not checked", value, "count=", count);
         if (this._element == null) return;
@@ -121,7 +127,7 @@ export class Node extends React.Component {
     marker() {
         const markers = [];
         for (let marker of Object.values(this.props.marker)) {
-            markers.push(<Marker key={marker.symbol} value={marker.symbol} x={marker.x} y={marker.y}/>);
+            markers.push(<Marker key={marker.symbol} value={this.getValueForMarker(marker.symbol)} x={marker.x} y={marker.y}/>);
         }
         return markers;
     }
@@ -146,5 +152,13 @@ export class Node extends React.Component {
                 </div>
             </div>
         );
+    }
+
+    getValueForMarker(symbol) {
+        for (let parameter of Object.values(this.props.parameters)) {
+            if (parameter.symbol === symbol) {
+                return parameter.value;
+            }
+        }
     }
 }
