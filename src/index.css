@@ -14,6 +14,10 @@ code {
     monospace;
 }
 
+.marker {
+    position: absolute;
+}
+
 .math {
     flex: none;
     padding: 10px 30px;
@@ -51,16 +55,19 @@ code {
 }
 
 .parameter, .constant {
-    border: 1px solid #999;
-    background: rgba(255, 255, 255, 1);
-    border-radius: 4px;
+    /*border: 1px solid #999;*/
+    /*background: rgba(255, 255, 255, 1);*/
+    /*border-radius: 4px;*/
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.parameter .name, .constant .name {
+.parameter .name {
     width: 20px;
+    padding: 0 8px;
+}
+.constant .name {
     padding: 0 8px;
 }
 
@@ -74,9 +81,9 @@ code {
 
 .node {
     position: absolute;
-    border: 1px solid #999;
-    background: rgba(255, 255, 255, 1);
-    border-radius: 10px;
+    /*border: 1px solid #999;*/
+    /*background: rgba(255, 255, 255, 1);*/
+    /*border-radius: 10px;*/
     display: flex;
     padding: 5px 0;
 }
@@ -118,4 +125,29 @@ code {
 
 .pin .name {
 
+}
+
+.mq-editable-field, .mq-math-mode .mq-editable-field {
+    border: none;
+}
+
+.mq-editable-field.mq-focused {
+    box-shadow: none;
+    border: none;
+}
+
+/*.mq-editable-field.mq-focused,*/
+/*.mq-math-mode .mq-editable-field.mq-focused {*/
+    /*border: none !important;*/
+    /*border-width: 0 !important;*/
+    /*border-color: red !important;*/
+/*}*/
+/*.mq-editable-field .mq-latex-command-input.mq-hasCursor {*/
+    /*border: none !important;*/
+    /*border-width: 0 !important;*/
+    /*border-color: red !important;*/
+/*}*/
+
+.mq-math-mode .mq-supsub .mq-sub, .mq-math-mode .mq-supsub .mq-sup {
+    font-size: 65%;
 }
