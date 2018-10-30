@@ -56,56 +56,52 @@ export class Node extends React.Component {
         return latex;
     }
 
+    findMarkers() {
+        const markers = {};
+        const visibleElementsWithClass = [...this._element.getElementsByClassName('mq-class')].filter(el => el.offsetParent != null);
+        console.log("array of ", visibleElementsWithClass);
+        for (const element of visibleElementsWithClass) {
+            const classNameNodeVar = /nodevar-([a-z-A-Z_])/g.exec(element.className);
+            if (classNameNodeVar) {
+                const variable = classNameNodeVar[1];
+                console.log("pos of " + variable, element.offsetLeft, element.offsetTop);
+                markers[variable] = {
+                    symbol: variable,
+                    x: element.offsetLeft,
+                    y: element.offsetTop,
+                }
+            }
+        }
+        return markers;
+    }
+
     componentDidMount() {
 
         console.log("mount", this.props.formula);
 
+        const markers = this.findMarkers();
+        if (this.props.onFormulaChange) {
+            this.props.onFormulaChange(this.props.id, this.props.formula, markers);
+        }
     }
 
     handleChange(value, count) {
         console.log("VALUE when element not checked", value, "count=", count);
         if (this._element == null) return;
-
         console.log("VALUE BEFORE", value, "count=", count);
-        // console.log("VALUE AFTER", EquationHelper.toLatex(EquationHelper.toMath(value)));
 
-        let formula = value;
-
-        for (const assignment of Object.values(this.props.assignments)) {
-            formula = formula.replace(assignment.symbol, assignment.parameter);
-        }
-        // console.log("FORMULA", formula);
-        const variables = Helper.getVariables(formula);
-        console.log("variables", variables);
-
-        const marker = {};
-        for (const variable of variables) {
-            const el = [...this._element.getElementsByClassName('nodevar-' + variable)].filter(el => el.offsetParent != null);
-            console.log("array of " + variable, el);
-            if (el.length === 1) {
-                console.log("pos of " + variable, el[0], el[0].offsetLeft);
-                marker[variable] = {
-                    symbol: variable,
-                    x: el[0].offsetLeft,
-                    y: el[0].offsetTop,
-                }
-            }
-        }
+        const markers = this.findMarkers();
 
         try {
-
             EquationHelper.toMath(value);
-
             // console.log("RETURN", count, this.formatFormula(this.props.formula), value);
             if (count < 1 || this.formatFormula(this.props.formula) === value) {
                 return;
             }
-
             // console.log("onFormulaChange", value);
             if (this.props.onFormulaChange) {
-                this.props.onFormulaChange(this.props.id, value, marker);
+                this.props.onFormulaChange(this.props.id, value, markers);
             }
-
             if (this.state.error) {
                 this.setState({
                     error: null,
@@ -119,7 +115,7 @@ export class Node extends React.Component {
                 });
             }
             if (this.props.onFormulaChange) {
-                this.props.onFormulaChange(this.props.id, this.props.formula, marker);
+                this.props.onFormulaChange(this.props.id, this.props.formula, markers);
             }
         }
     }
