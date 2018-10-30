@@ -1,10 +1,10 @@
 import React from "react";
 import {MathInput} from "../components/math-input";
-import {EquationHelper} from "../App";
 import {REGEX_FORMULA_VARIABLE} from "../constants";
 import {Helper} from "../util/helper";
 import * as ReactDOM from "react-dom";
 import {Marker} from "./marker";
+import {EquationHelper} from "../util/equation-helper";
 
 
 export class Node extends React.Component {
@@ -20,10 +20,9 @@ export class Node extends React.Component {
             right: Helper.getVariables(right),
             mode: "view",
             inputFormula: formula,
+            error: null,
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleChange2 = this.handleChange2.bind(this);
-        this.handleChange3 = this.handleChange3.bind(this);
     }
 
     formatFormula(formula) {
@@ -57,51 +56,26 @@ export class Node extends React.Component {
         return latex;
     }
 
-    edit() {
-        this.setState({
-            mode: "edit",
-        });
-    }
-
-    save() {
-        this.setState({
-            mode: "view",
-        });
-        this.props.onFormulaChange(this.props.id, this.state.inputFormula);
-    }
-
-    handleChange2(value, count) {
-        console.log("HANDLE 2 ---------------------------------->", value);
-        // this.props.onFormulaChange(this.props.id, value);
-
-
-        console.log("this._element", this, this._element, value);
-
-
-
-    }
-    handleChange3(value, count) {
-        console.log("HANDLE 3 ---------------------------------->", value);
-    }
-
     handleChange(value, count) {
-
-        console.log("this._element zzzzzz", this, this._element, value);
-
-
+        console.log("VALUE when element not checked", value, "count=", count);
         if (this._element == null) return;
 
-        let formula = EquationHelper.toMath(value);
+        console.log("VALUE BEFORE", value, "count=", count);
+        // console.log("VALUE AFTER", EquationHelper.toLatex(EquationHelper.toMath(value)));
+
+        let formula = value;
+
         for (const assignment of Object.values(this.props.assignments)) {
             formula = formula.replace(assignment.symbol, assignment.parameter);
         }
-        console.log("FORMULA", formula);
+        // console.log("FORMULA", formula);
         const variables = Helper.getVariables(formula);
         console.log("variables", variables);
 
         const marker = {};
         for (const variable of variables) {
-            const el = this._element.getElementsByClassName('nodevar-' + variable);
+            const el = [...this._element.getElementsByClassName('nodevar-' + variable)].filter(el => el.offsetParent != null);
+            console.log("array of " + variable, el);
             if (el.length === 1) {
                 console.log("pos of " + variable, el[0], el[0].offsetLeft);
                 marker[variable] = {
@@ -112,27 +86,44 @@ export class Node extends React.Component {
             }
         }
 
-        console.log("RETURN", count, this.formatFormula(this.props.formula), value);
-        if (count < 1 || this.formatFormula(this.props.formula) === value) {
-            return;
-        }
+        try {
 
-        console.log("onFormulaChange", value);
-        if (this.props.onFormulaChange) {
-            this.props.onFormulaChange(this.props.id, value, marker);
-        }
+            EquationHelper.toMath(value);
 
-        // this.setState({
-        //     inputFormula: value,
-        // });
+            // console.log("RETURN", count, this.formatFormula(this.props.formula), value);
+            if (count < 1 || this.formatFormula(this.props.formula) === value) {
+                return;
+            }
+
+            // console.log("onFormulaChange", value);
+            if (this.props.onFormulaChange) {
+                this.props.onFormulaChange(this.props.id, value, marker);
+            }
+
+            if (this.state.error) {
+                this.setState({
+                    error: null,
+                });
+            }
+        } catch (error) {
+            console.log(error.message);
+            if (error.message.includes("Parser error")) {
+                this.setState({
+                    error: error.message
+                });
+            }
+            if (this.props.onFormulaChange) {
+                this.props.onFormulaChange(this.props.id, this.props.formula, marker);
+            }
+        }
     }
 
     marker() {
-        const marker = [];
+        const markers = [];
         for (let marker of Object.values(this.props.marker)) {
-            marker.push(<Marker key={marker.symbol} value={marker.symbol} x={marker.x} y={marker.y} />);
+            markers.push(<Marker key={marker.symbol} value={marker.symbol} x={marker.x} y={marker.y}/>);
         }
-        return marker;
+        return markers;
     }
 
     render() {
@@ -140,18 +131,18 @@ export class Node extends React.Component {
             left: this.props.x,
             top: this.props.y,
         };
-
         return (
             <div
                 className="node"
                 style={style}
-                ref={(node) => {this._element = ReactDOM.findDOMNode(node); console.log("<<< set element", node, ReactDOM.findDOMNode(node));}}
+                ref={(node) => this._element = ReactDOM.findDOMNode(node)}
             >
                 <div className="math">
                     <div className="formula-container">
-                        <MathInput value={this.formatFormulaWithClasses(this.props.formula)} onChange={this.handleChange} />
+                        <MathInput paused={this.state.error} value={this.formatFormulaWithClasses(this.props.formula)} onChange={this.handleChange}/>
                         {this.marker()}
                     </div>
+                    <pre className="error">{this.state.error}</pre>
                 </div>
             </div>
         );

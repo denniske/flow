@@ -9,6 +9,7 @@ import {Node} from "./view/node";
 import {Helper} from "./util/helper";
 import {Parameter} from "./view/parameter";
 import {Constant} from "./view/constant";
+import {EquationHelper} from "./util/equation-helper";
 
 
 class App extends Component {
@@ -163,7 +164,7 @@ class App extends Component {
 
     handleFormulaChange(id, formula, marker) {
         formula = EquationHelper.toMath(formula);
-        console.log("handleFormulaChange", id, formula, marker);
+        // console.log("handleFormulaChange", id, formula, marker);
         this.props.dispatch(NodeActionCreator.updateNodeFormula(1, formula, marker));
     }
 

@@ -106,7 +106,9 @@ export class MathWrapper {
                     // console.log("mathField", mathField, k);
                     // console.log("mathField", this.mathField);
                     // console.log("mathField", this.mathField.getContent());
-                    this.callbacks.onChange(mathField.latex());
+                    if (this.callbacks.onChange) {
+                        this.callbacks.onChange(mathField.latex());
+                    }
                 },
             }
         });

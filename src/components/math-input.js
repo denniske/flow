@@ -4,17 +4,8 @@ import * as ReactDOM from "react-dom";
 
 
 export class MathInput extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
-        this._isMounted = true;
-
         this.changeCount = 0;
-
-        console.log("componentDidMount");
 
         this.mathField = new MathWrapper(this._mathContainer, {}, {
             onCursorMove: (cursor) => {
@@ -27,12 +18,13 @@ export class MathInput extends React.Component {
                 // this.props.keypadElement.setCursor(cursor);
             },
             onChange: (value) => {
-                console.log("MATH INPUT ONCHANGE", value);
+                console.log("MATH INPUT ONCHANGE", this.changeCount);
                 if (this.props.onChange) {
                     this.props.onChange(value, this.changeCount++);
                 }
             }
         });
+        this.hiddenMathField = new MathWrapper(this._hiddenMathContainer, {}, {});
 
         // NOTE(charlie): MathQuill binds this handler to manage its
         // drag-to-select behavior. For reasons that I can't explain, the event
@@ -77,20 +69,26 @@ export class MathInput extends React.Component {
     // }
 
     render() {
-        console.log("RERENDER", this.props.value);
+        console.log("RERENDER paused=", this.props.paused);
 
-        if (this.mathField) {
-            console.log("SETVALUE2 TRY", this.mathField.getContent(), this.props.value);
-            if (this.mathField.getContent() !== this.props.value) {
+        if (this.mathField && !this.props.paused) {
+            const oldValue = this.mathField.getContent();
+            this.hiddenMathField.setContent(this.props.value);
+            const newValue = this.hiddenMathField.getContent();
+
+            console.log("SETVALUE2 TRY");
+            console.log(oldValue);
+            console.log(newValue);
+
+            if (oldValue !== newValue) {
                 console.log("SETVALUE2");
                 this.mathField.setContent(this.props.value);
             }
         }
 
-        return <div
-            ref={(node) => {
-                this._mathContainer = ReactDOM.findDOMNode(node);
-            }}
-        />;
+        return <div className="mathfield">
+            <div ref={(node) => this._mathContainer = ReactDOM.findDOMNode(node)}/>
+            <div ref={(node) => this._hiddenMathContainer = ReactDOM.findDOMNode(node)} className="hidden"/>
+        </div>;
     }
 }

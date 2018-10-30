@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "denniske-algebra-latex": "1.1.2",
+    "denniske-algebra-latex": "1.1.3",
     "algebrite": "^1.2.0",
     "konva": "^2.5.0",
     "lodash": "^4.17.11",

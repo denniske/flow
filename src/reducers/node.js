@@ -15,10 +15,11 @@ class NodeReducer {
                         x: payload.x,
                         y: payload.y,
                         assignments: {},
+                        marker: {},
                     }
                 });
             case NODE_ACTION.UPDATE_NODE_FORMULA:
-                console.log("UPDATE_NODE_FORMULA marker=", payload.marker);
+                // console.log("UPDATE_NODE_FORMULA marker=", payload.marker);
                 return merge({}, state, {
                     [payload.id]: {
                         formula: payload.formula,

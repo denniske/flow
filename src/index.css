@@ -18,6 +18,10 @@ code {
     position: absolute;
 }
 
+.mathfield .hidden {
+    display: none;
+}
+
 .math {
     flex: none;
     padding: 10px 30px;
@@ -86,6 +90,11 @@ code {
     /*border-radius: 10px;*/
     display: flex;
     padding: 5px 0;
+}
+
+.node .error {
+    color: red;
+    display: none;
 }
 
 .pin-container {
