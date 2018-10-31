@@ -8,15 +8,6 @@ export class MathInput extends React.Component {
         this.changeCount = 0;
 
         this.mathField = new MathWrapper(this._mathContainer, {}, {
-            onCursorMove: (cursor) => {
-                // TODO(charlie): It's not great that there is so much coupling
-                // between this keypad and the input behavior. We should wrap
-                // this `MathInput` component in an intermediary component
-                // that translates accesses on the keypad into vanilla props,
-                // to make this input keypad-agnostic.
-                // this.props.keypadElement &&
-                // this.props.keypadElement.setCursor(cursor);
-            },
             onChange: (value) => {
                 console.log("MATH INPUT ONCHANGE", this.changeCount);
                 if (this.props.onChange) {
@@ -51,22 +42,9 @@ export class MathInput extends React.Component {
         //     };
         // }
 
-        // console.log("this.props.value", this.props.value);
-
         console.log("SETVALUE1");
         this.mathField.setContent(this.props.value);
-
-        // this._container = ReactDOM.findDOMNode(this);
     }
-
-    // componentDidUpdate(prevProps) {
-    //     if (this.props.value !== prevProps.value) {
-    //         console.log("MATH INPUT ONUPDATE >>> ", this.props.value);
-    //         if (this.props.onUpdate) {
-    //             this.props.onUpdate(this.props.value, this.changeCount++);
-    //         }
-    //     }
-    // }
 
     render() {
         console.log("RERENDER paused=", this.props.paused);
