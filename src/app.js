@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import MathJax from 'react-mathjax';
 import {merge} from "lodash";
 import {connect} from "react-redux";
-import {ConstantActionCreator} from "./actions/constant";
 import {NodeActionCreator} from "./actions/node";
 import {ArrayHelper} from "./util/array-helper";
 import {Node} from "./view/node";
@@ -17,6 +16,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.handleFormulaChange = this.handleFormulaChange.bind(this);
+        this.handleFormulaMarkerChange = this.handleFormulaMarkerChange.bind(this);
         setTimeout(() => {
             const actions = [
                 // ParameterActionCreator.addParameter("m_e", "9.109*10^-31"),
@@ -168,14 +168,32 @@ class App extends Component {
     handleFormulaChange(id, formula, latex, marker) {
         formula = EquationHelper.toMath(formula);
         // console.log("handleFormulaChange", id, formula, marker);
-        this.props.dispatch(NodeActionCreator.updateNodeFormula(1, formula, latex, marker));
+        this.props.dispatch(NodeActionCreator.updateNodeFormula(id, formula, latex, marker));
+    }
+
+    handleFormulaMarkerChange(id, marker) {
+        this.props.dispatch(NodeActionCreator.updateNodeFormulaMarker(id, marker));
     }
 
     nodes() {
         const nodes = [];
         for (let node of Object.values(this.props.nodes)) {
             // console.log("node", node);
-            nodes.push(<Node key={node.id} id={node.id} formula={node.formula} latex={node.latex} assignments={node.assignments} marker={node.marker} constants={this.props.constants} parameters={this.props.parameters} variables={this.props.variables} x={node.x} y={node.y} onFormulaChange={this.handleFormulaChange} />);
+            nodes.push(<Node
+                key={node.id}
+                id={node.id}
+                formula={node.formula}
+                latex={node.latex}
+                assignments={node.assignments}
+                marker={node.marker}
+                constants={this.props.constants}
+                parameters={this.props.parameters}
+                variables={this.props.variables}
+                x={node.x}
+                y={node.y}
+                onFormulaChange={this.handleFormulaChange}
+                onFormulaMarkerChange={this.handleFormulaMarkerChange}
+            />);
         }
         return nodes;
     }

@@ -2,6 +2,7 @@ import {NODE_ACTION} from "../actions/node";
 import {merge} from "lodash";
 import {AssignmentReducer} from "./assignment";
 import {ASSIGNMENT_ACTION} from "../actions/assignment";
+import update from 'immutability-helper';
 
 class NodeReducer {
     static handle(state = [], action) {
@@ -20,12 +21,23 @@ class NodeReducer {
                     }
                 });
             case NODE_ACTION.UPDATE_NODE_FORMULA:
-                // console.log("UPDATE_NODE_FORMULA marker=", payload.marker);
-                return merge({}, state, {
+                // console.log("UPDATE_NODE_FORMULA", payload.marker);
+                return update(state, {
                     [payload.id]: {
-                        formula: payload.formula,
-                        latex: payload.latex,
-                        marker: payload.marker,
+                        $merge: {
+                            formula: payload.formula,
+                            latex: payload.latex,
+                            // marker: payload.marker,
+                        },
+                    }
+                });
+            case NODE_ACTION.UPDATE_NODE_FORMULA_MARKER:
+                // console.log("UPDATE_NODE_FORMULA_MARKER", payload.marker);
+                return update(state, {
+                    [payload.id]: {
+                        marker: {
+                            $set: payload.marker,
+                        },
                     }
                 });
             default:

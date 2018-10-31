@@ -16,6 +16,18 @@ code {
 
 .marker {
     position: absolute;
+    background: #61dafb;
+    z-index: 1;
+}
+
+.mathfield {
+
+}
+
+.mathfield-with-classes {
+    position: absolute;
+    top: 0;
+    visibility: hidden;
 }
 
 .mathfield .hidden {

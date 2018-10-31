@@ -95,6 +95,7 @@ export class MathWrapper {
     constructor(element, options = {}, callbacks = {}) {
         this.MQ = MathQuill.getInterface(2);
         this.callbacks = callbacks;
+        this.lastLatex = null;
         this.mathField = this.MQ.MathField(element, {
             // use a span instead of a textarea so that we don't bring up the
             // native keyboard on mobile when selecting the input
@@ -104,8 +105,32 @@ export class MathWrapper {
             handlers: {
                 edit: (mathField, k) => {
                     if (this.callbacks.onChange) {
-                        this.callbacks.onChange(mathField.latex(), mathField.__controller.cursor);
+                        const currentLatex = mathField.latex();
+                        if (this.lastLatex === currentLatex) {
+                            return;
+                        }
+                        this.lastLatex = currentLatex;
+                        this.callbacks.onChange(mathField.__controller.root.jQ.get(0), currentLatex, mathField.__controller.cursor);
                     }
+
+                    // console.log("mathField.__controller.root.jQ.get()", mathField.__controller.root.jQ.get());
+                    //
+                    // const markers = {};
+                    // const visibleElementsWithClass = [...mathField.__controller.root.jQ.get(0).getElementsByClassName('mq-class')].filter(el => el.offsetParent != null);
+                    // console.log("array of ", visibleElementsWithClass);
+                    // for (const element of visibleElementsWithClass) {
+                    //     const classNameNodeVar = /nodevar-([a-z-A-Z_]+)/g.exec(element.className);
+                    //     if (classNameNodeVar) {
+                    //         const variable = classNameNodeVar[1];
+                    //         console.log("POS of " + variable, element.offsetLeft, element.offsetTop);
+                    //         markers[variable] = {
+                    //             symbol: variable,
+                    //             x: element.offsetLeft,
+                    //             y: element.offsetTop,
+                    //         }
+                    //     }
+                    // }
+                    // return markers;
                 },
             }
         });

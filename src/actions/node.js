@@ -3,6 +3,7 @@ import {EquationHelper} from "../util/equation-helper";
 export const NODE_ACTION = {
     ADD_NODE: 'ADD_NODE',
     UPDATE_NODE_FORMULA: 'UPDATE_NODE_FORMULA',
+    UPDATE_NODE_FORMULA_MARKER: 'UPDATE_NODE_FORMULA_MARKER',
 };
 
 export class NodeActionCreator {
@@ -34,6 +35,15 @@ export class NodeActionCreator {
                 marker,
             }
         };
+    }
 
+    static updateNodeFormulaMarker(id, marker) {
+        return {
+            type: NODE_ACTION.UPDATE_NODE_FORMULA_MARKER,
+            payload: {
+                id,
+                marker,
+            }
+        };
     }
 }
