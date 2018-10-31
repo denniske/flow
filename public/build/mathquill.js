@@ -2152,33 +2152,11 @@ Controller.open(function(_) {
     prayDirection(dir);
     var cursor = this.cursor, updown = cursor.options.leftRightIntoCmdGoes;
 
-      console.log("moveDir", dir);
-      console.log("cursor.parent", cursor.parent);
-      console.log("cursor.parent.parent", cursor.parent.parent);
-      console.log("cursor.[dir]", cursor[dir]);
-
     if (cursor.selection) {
       cursor.insDirOf(dir, cursor.selection.ends[dir]);
     }
-    else if (cursor[dir]) {
-        if (cursor[dir].ctrlSeq === "class") {
-            cursor[dir].moveTowards(dir, cursor, updown);
-        }
-        cursor[dir].moveTowards(dir, cursor, updown);
-    }
-    else {
-        if (cursor.parent.parent.ctrlSeq === "class") {
-            cursor.parent.moveOutOf(dir, cursor, updown);
-            console.log("cursor.parent", cursor.parent);
-            console.log("cursor.parent.parent", cursor.parent.parent);
-            console.log("cursor.[dir]", cursor[dir]);
-            if (cursor[dir]) {
-                cursor[dir].moveTowards(dir, cursor, updown);
-            }
-        } else {
-            cursor.parent.moveOutOf(dir, cursor, updown);
-        }
-    }
+    else if (cursor[dir]) cursor[dir].moveTowards(dir, cursor, updown);
+    else cursor.parent.moveOutOf(dir, cursor, updown);
 
     return this.notify('move');
   };
@@ -2226,26 +2204,8 @@ Controller.open(function(_) {
     var hadSelection = cursor.selection;
     this.notify('edit'); // deletes selection if present
     if (!hadSelection) {
-      // console.log("----");
-      // console.log("cursor.parent", cursor.parent);
-      // console.log("cursor.parent.parent", cursor.parent.parent);
-      // console.log("cursor.[dir]", cursor[dir]);
-      // console.log("cursor[L].siblingDeleted", cursor[L].siblingDeleted);
-      // console.log("cursor[R].siblingDeleted", cursor[R].siblingDeleted);
-      if (cursor[dir]){
-        // if (cursor[dir].ctrlSeq === "class") {
-        //     cursor[dir].deleteTowards(dir, cursor);
-        // }
-          // console.log("cursor.parent", cursor.parent);
-          // console.log("cursor.parent.parent", cursor.parent.parent);
-          // console.log("cursor.[dir]", cursor[dir]);
-          // console.log("cursor[L].siblingDeleted", cursor[L].siblingDeleted);
-          // console.log("cursor[R].siblingDeleted", cursor[R].siblingDeleted);
-        cursor[dir].deleteTowards(dir, cursor);
-      }
-      else {
-        cursor.parent.deleteOutOf(dir, cursor);
-      }
+      if (cursor[dir]) cursor[dir].deleteTowards(dir, cursor);
+      else cursor.parent.deleteOutOf(dir, cursor);
     }
 
     if (cursor[L].siblingDeleted) cursor[L].siblingDeleted(cursor.options, R);
