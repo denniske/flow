@@ -79,7 +79,7 @@ export class Node extends React.Component {
         // console.log("mount", this.props.formula);
         const markers = this.findMarkers();
         if (this.props.onFormulaChange) {
-            this.props.onFormulaChange(this.props.id, this.props.formula, markers);
+            this.props.onFormulaChange(this.props.id, this.props.formula, this.props.latex, markers);
         }
     }
 
@@ -98,7 +98,7 @@ export class Node extends React.Component {
             }
             // console.log("onFormulaChange", value);
             if (this.props.onFormulaChange) {
-                this.props.onFormulaChange(this.props.id, value, markers);
+                this.props.onFormulaChange(this.props.id, value, value, markers);
             }
             if (this.state.error) {
                 this.setState({
@@ -113,7 +113,7 @@ export class Node extends React.Component {
                 });
             }
             if (this.props.onFormulaChange) {
-                this.props.onFormulaChange(this.props.id, this.props.formula, markers);
+                this.props.onFormulaChange(this.props.id, this.props.formula, value, markers);
             }
         }
     }
@@ -139,7 +139,8 @@ export class Node extends React.Component {
             >
                 <div className="math">
                     <div className="formula-container">
-                        <MathInput paused={this.state.error} value={this.formatFormulaWithClasses(this.props.formula)} onChange={this.handleChange} />
+                        <MathInput paused={this.state.error} value={this.props.latex} onChange={this.handleChange} />
+                        {/*<MathInput paused={this.state.error} value={this.formatFormulaWithClasses(this.props.formula)} onChange={this.handleChange} />*/}
                         {/*{this.marker()}*/}
                     </div>
                     <pre className="error">{this.state.error}</pre>

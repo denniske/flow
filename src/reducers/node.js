@@ -12,6 +12,7 @@ class NodeReducer {
                     [payload.id]: {
                         id: payload.id,
                         formula: payload.formula,
+                        latex: payload.latex,
                         x: payload.x,
                         y: payload.y,
                         assignments: {},
@@ -23,6 +24,7 @@ class NodeReducer {
                 return merge({}, state, {
                     [payload.id]: {
                         formula: payload.formula,
+                        latex: payload.latex,
                         marker: payload.marker,
                     }
                 });

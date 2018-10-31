@@ -28,7 +28,7 @@ class App extends Component {
                 // ConstantActionCreator.addConstant("e", "1.602*10^-19"),
 
 
-                NodeActionCreator.addNode("a+b=c", 250, 100),
+                NodeActionCreator.addNode("a+b=c", null, 250, 100),
 
                 // NodeActionCreator.addNode("1/2 * m * (v)^2 = E_kin", 250, 100),
                 // AssignmentActionCreator.addAssignment(1, "m", "m_e"),
@@ -165,17 +165,17 @@ class App extends Component {
         }));
     }
 
-    handleFormulaChange(id, formula, marker) {
+    handleFormulaChange(id, formula, latex, marker) {
         formula = EquationHelper.toMath(formula);
         // console.log("handleFormulaChange", id, formula, marker);
-        this.props.dispatch(NodeActionCreator.updateNodeFormula(1, formula, marker));
+        this.props.dispatch(NodeActionCreator.updateNodeFormula(1, formula, latex, marker));
     }
 
     nodes() {
         const nodes = [];
         for (let node of Object.values(this.props.nodes)) {
             // console.log("node", node);
-            nodes.push(<Node key={node.id} id={node.id} formula={node.formula} assignments={node.assignments} marker={node.marker} constants={this.props.constants} parameters={this.props.parameters} variables={this.props.variables} x={node.x} y={node.y} onFormulaChange={this.handleFormulaChange} />);
+            nodes.push(<Node key={node.id} id={node.id} formula={node.formula} latex={node.latex} assignments={node.assignments} marker={node.marker} constants={this.props.constants} parameters={this.props.parameters} variables={this.props.variables} x={node.x} y={node.y} onFormulaChange={this.handleFormulaChange} />);
         }
         return nodes;
     }
