@@ -9,7 +9,7 @@ import {DecimalSeparators} from "../consts";
 import * as Keys from "../keys";
 import * as CursorContexts from "./cursor-contexts";
 
-const $ = window.jquery;
+const $ = window.jQuery;
 const MathQuill = window.MathQuill;
 
 const decimalSymbol = decimalSeparator === DecimalSeparators.COMMA ? ',' : '.';
@@ -107,7 +107,47 @@ export class MathWrapper {
                     // console.log("mathField", this.mathField);
                     // console.log("mathField", this.mathField.getContent());
                     if (this.callbacks.onChange) {
-                        this.callbacks.onChange(mathField.latex());
+                        this.callbacks.onChange(mathField.latex(), mathField.__controller.cursor);
+                    }
+                },
+                moveOutOf: (direction, math) => {
+                    // console.log("mathField", mathField, k);
+                    // console.log("mathField", this.mathField);
+                    // console.log("mathField", this.mathField.getContent());
+                    if (this.callbacks.onCursorMove) {
+                        this.callbacks.onCursorMove(direction, math);
+                    }
+                },
+                upOutOf: (math) => {
+                    // console.log("mathField", mathField, k);
+                    // console.log("mathField", this.mathField);
+                    // console.log("mathField", this.mathField.getContent());
+                    if (this.callbacks.onCursorMove) {
+                        this.callbacks.onCursorMove("up", math);
+                    }
+                },
+                downOutOf: (math) => {
+                    // console.log("mathField", mathField, k);
+                    // console.log("mathField", this.mathField);
+                    // console.log("mathField", this.mathField.getContent());
+                    if (this.callbacks.onCursorMove) {
+                        this.callbacks.onCursorMove("down", math);
+                    }
+                },
+                selectOutOf: (math) => {
+                    // console.log("mathField", mathField, k);
+                    // console.log("mathField", this.mathField);
+                    // console.log("mathField", this.mathField.getContent());
+                    if (this.callbacks.onCursorMove) {
+                        this.callbacks.onCursorMove("select", math);
+                    }
+                },
+                reflow: (math) => {
+                    // console.log("mathField", mathField, k);
+                    // console.log("mathField", this.mathField);
+                    // console.log("mathField", this.mathField.getContent());
+                    if (this.callbacks.onCursorMove) {
+                        this.callbacks.onCursorMove("reflow", math);
                     }
                 },
             }

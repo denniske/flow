@@ -23,6 +23,7 @@ export class Node extends React.Component {
             error: null,
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleCursorMove = this.handleCursorMove.bind(this);
     }
 
     formatFormula(formula) {
@@ -58,13 +59,13 @@ export class Node extends React.Component {
 
     findMarkers() {
         const markers = {};
-        const visibleElementsWithClass = [...this._element.getElementsByClassName('mq-class')].filter(el => el.offsetParent != null);
-        console.log("array of ", visibleElementsWithClass);
+        const visibleElementsWithClass = [...this._element.getElementsByClassName('mq-class')];//.filter(el => el.offsetParent != null);
+        // console.log("array of ", visibleElementsWithClass);
         for (const element of visibleElementsWithClass) {
             const classNameNodeVar = /nodevar-([a-z-A-Z_])/g.exec(element.className);
             if (classNameNodeVar) {
                 const variable = classNameNodeVar[1];
-                console.log("pos of " + variable, element.offsetLeft, element.offsetTop);
+                // console.log("pos of " + variable, element.offsetLeft, element.offsetTop);
                 markers[variable] = {
                     symbol: variable,
                     x: element.offsetLeft,
@@ -77,7 +78,7 @@ export class Node extends React.Component {
 
     componentDidMount() {
 
-        console.log("mount", this.props.formula);
+        // console.log("mount", this.props.formula);
 
         const markers = this.findMarkers();
         if (this.props.onFormulaChange) {
@@ -85,10 +86,20 @@ export class Node extends React.Component {
         }
     }
 
-    handleChange(value, count) {
-        console.log("VALUE when element not checked", value, "count=", count);
+    handleCursorMove(direction, math) {
+        console.log("handleCursorMove", direction, math);
+    }
+
+    handleChange(value, count, cursor) {
+        if (cursor.jQ.get()[0]) {
+            console.log("||||||||||||| handleCursorMove", cursor.jQ.get()[0].offsetLeft, cursor.jQ.offset(), cursor.jQ.position());
+            if (cursor.jQ.offset().left > 0) {
+                this.cursor = cursor.jQ.offset();
+            }
+        }
+        // console.log("VALUE when element not checked", value, "count=", count);
         if (this._element == null) return;
-        console.log("VALUE BEFORE", value, "count=", count);
+        // console.log("VALUE BEFORE", value, "count=", count);
 
         const markers = this.findMarkers();
 
@@ -98,7 +109,7 @@ export class Node extends React.Component {
             if (count < 1 || this.formatFormula(this.props.formula) === value) {
                 return;
             }
-            // console.log("onFormulaChange", value);
+            console.log("onFormulaChange", value);
             if (this.props.onFormulaChange) {
                 this.props.onFormulaChange(this.props.id, value, markers);
             }
@@ -114,9 +125,9 @@ export class Node extends React.Component {
                     error: error.message
                 });
             }
-            if (this.props.onFormulaChange) {
-                this.props.onFormulaChange(this.props.id, this.props.formula, markers);
-            }
+            // if (this.props.onFormulaChange) {
+            //     this.props.onFormulaChange(this.props.id, this.props.formula, markers);
+            // }
         }
     }
 
@@ -141,8 +152,8 @@ export class Node extends React.Component {
             >
                 <div className="math">
                     <div className="formula-container">
-                        <MathInput paused={this.state.error} value={this.formatFormulaWithClasses(this.props.formula)} onChange={this.handleChange}/>
-                        {this.marker()}
+                        <MathInput paused={this.state.error} value={this.formatFormulaWithClasses(this.props.formula)} cursor={this.cursor} onChange={this.handleChange} onCursorMove={this.handleCursorMove}/>
+                        {/*{this.marker()}*/}
                     </div>
                     <pre className="error">{this.state.error}</pre>
                 </div>
