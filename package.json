@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "algebrite": "^1.2.0",
-    "denniske-algebra-latex": "1.1.6",
+    "denniske-algebra-latex": "1.1.7",
     "immutability-helper": "^2.8.1",
     "konva": "^2.5.0",
     "lodash": "^4.17.11",

@@ -1,4 +1,6 @@
 import React from "react";
+import {MathInput} from "../components/math-input";
+import {EquationHelper} from "../util/equation-helper";
 
 
 const MARKER_HEIGHT = 23;
@@ -16,10 +18,13 @@ export class Marker extends React.Component {
             style.top = this.props.y + this.props.height + 20;
         }
 
+        const latex = EquationHelper.toLatex(this.props.value);
+
         return (
             <div className="marker" style={style}>
                 <div className="value">
-                    {this.props.value}
+                    {/*{this.props.value}*/}
+                    <MathInput value={latex} />
                 </div>
             </div>
         );

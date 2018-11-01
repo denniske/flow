@@ -6,8 +6,8 @@ export class GeogebraParser {
         if (result[0] === "{" && result[1] !== "{") {
             result = "{" + result.replace(",", "},{") + "}";
         }
-        // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        // console.log("result", result);
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        console.log("result", result);
         if (result === "{}") {
             return null;
         }

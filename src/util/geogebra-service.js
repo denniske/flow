@@ -48,7 +48,7 @@ export class GeogebraService {
     }
 
     static casSolve(equations, variables) {
-        const command = "Solve({" + equations.join(",") + "}, {" + variables.join(",") + "})";
+        const command = "Numeric(Solve({" + equations.join(",") + "}, {" + variables.join(",") + "}))";
         let result = this.casCommand(command);
         return new GeogebraParser().parse(result);
     }

@@ -12,6 +12,8 @@ import {EquationHelper} from "./util/equation-helper";
 import {ParameterActionCreator} from "./actions/parameter";
 import {VariableActionCreator} from "./actions/variable";
 import {GeogebraService} from "./util/geogebra-service";
+import {AssignmentActionCreator} from "./actions/assignment";
+import {ConstantActionCreator} from "./actions/constant";
 
 
 class App extends Component {
@@ -22,27 +24,27 @@ class App extends Component {
         this.handleFormulaMarkerChange = this.handleFormulaMarkerChange.bind(this);
         setTimeout(() => {
             const actions = [
-                // ParameterActionCreator.addParameter("m_e", "9.109*10^-31"),
-                // ParameterActionCreator.addParameter("U_B", "10"),
+                ParameterActionCreator.addParameter("m_e", "9.109*10^-31"),
+                ParameterActionCreator.addParameter("U_B", "10"),
 
                 ParameterActionCreator.addParameter("a", "1"),
                 ParameterActionCreator.addParameter("c", "2"),
 
-                // ConstantActionCreator.addConstant("e", "1.602*10^-19"),
+                ConstantActionCreator.addConstant("e", "1.602*10^-19"),
 
 
-                NodeActionCreator.addNode("x^2=4", null, 250, 100),
+                // NodeActionCreator.addNode("x^2=4", null, 250, 100),
                 // NodeActionCreator.addNode("a+b=c", null, 250, 100),
-                NodeActionCreator.addNode("d+e=f", null, 450, 100),
+                // NodeActionCreator.addNode("d+e=f", null, 450, 100),
 
-                // NodeActionCreator.addNode("1/2 * m * (v)^2 = E_kin", 250, 100),
-                // AssignmentActionCreator.addAssignment(1, "m", "m_e"),
-                // AssignmentActionCreator.addAssignment(1, "v", "v_0"),
-                //
-                // NodeActionCreator.addNode("U * e = E_el", 250, 300),
-                // AssignmentActionCreator.addAssignment(2, "U", "U_B"),
-                //
-                // NodeActionCreator.addNode("E_kin = E_el", 250, 200),
+                NodeActionCreator.addNode("1/2 * m * (v)^2 = E_kin", null, 250, 100),
+                AssignmentActionCreator.addAssignment(1, "m", "m_e"),
+                AssignmentActionCreator.addAssignment(1, "v", "v_0"),
+
+                NodeActionCreator.addNode("U * e = E_el", null, 250, 300),
+                AssignmentActionCreator.addAssignment(2, "U", "U_B"),
+
+                NodeActionCreator.addNode("E_kin = E_el", null, 250, 200),
                 //
                 //
                 // NodeActionCreator.addNode("F = U/d * e", 450, 100),
