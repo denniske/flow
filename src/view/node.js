@@ -2,7 +2,6 @@ import React from "react";
 import {MathInput} from "../components/math-input";
 import {REGEX_FORMULA_VARIABLE} from "../constants";
 import {Helper} from "../util/helper";
-import * as ReactDOM from "react-dom";
 import {Marker} from "./marker";
 import {EquationHelper} from "../util/equation-helper";
 
@@ -11,15 +10,12 @@ export class Node extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        const formula = this.props.formula;
-        const left = formula.split("=")[0];
-        const right = formula.split("=")[1];
+        const left = this.props.formula.split("=")[0];
+        const right = this.props.formula.split("=")[1];
 
         this.state = {
             left: Helper.getVariables(left),
             right: Helper.getVariables(right),
-            mode: "view",
-            inputFormula: formula,
             error: null,
         };
         this.handleChange = this.handleChange.bind(this);
@@ -44,31 +40,39 @@ export class Node extends React.PureComponent {
     findMarkers(mathField) {
         const markers = {};
         const visibleElementsWithClass = [...mathField.getElementsByClassName('mq-class')].filter(el => el.offsetParent != null);
-        // console.log("array of ", visibleElementsWithClass);
         for (const element of visibleElementsWithClass) {
             const classNameNodeVar = /nodevar-([a-z-A-Z_]+)/g.exec(element.className);
             if (classNameNodeVar) {
                 const variable = classNameNodeVar[1];
-                // console.log("pos of " + variable, element.offsetLeft, element.offsetTop);
+                const x = element.offsetLeft;
+                const y = element.offsetTop;
+                const width = element.offsetWidth;
+                const height = element.offsetHeight;
+                const centerX = x + 0.5 * width;
+                const centerY = y + 0.5 * height;
+                const dir = centerY > 0.5 * mathField.offsetHeight ? "down" : "up";
                 markers[variable] = {
                     symbol: variable,
-                    x: element.offsetLeft,
-                    y: element.offsetTop,
-                }
+                    x,
+                    y,
+                    width,
+                    height,
+                    centerX,
+                    centerY,
+                    dir
+                };
             }
         }
         return markers;
     }
 
     componentDidMount() {
-        // console.log("mount", this.props.formula);
-        const markers = this.findMarkers(this._element);
         if (this.props.onFormulaChange) {
-            this.props.onFormulaChange(this.props.id, this.props.formula, this.props.latex, markers);
+            this.props.onFormulaChange(this.props.id, this.props.formula, this.props.latex);
         }
     }
 
-    handleChange(mathField, value, count, cursor) {
+    handleChange(mathField, value) {
         try {
             EquationHelper.toMath(value);
             if (this.props.onFormulaChange) {
@@ -98,13 +102,30 @@ export class Node extends React.PureComponent {
             if (this.props.onFormulaMarkerChange) {
                 this.props.onFormulaMarkerChange(this.props.id, markers);
             }
-        });
+        }, Object.values(this.props.marker).length === 0 ? 1000 : 0);
+    }
+
+    getValueForMarker(symbol) {
+        for (let parameter of Object.values(this.props.parameters)) {
+            if (parameter.symbol === symbol) {
+                return parameter.value;
+            }
+        }
+        for (let variable of Object.values(this.props.variables)) {
+            if (variable.symbol === symbol) {
+                return variable.expr;
+            }
+        }
     }
 
     marker() {
         const markers = [];
         for (let marker of Object.values(this.props.marker)) {
-            markers.push(<Marker key={marker.symbol} value={this.getValueForMarker(marker.symbol)} x={marker.x} y={marker.y}/>);
+            const value = this.getValueForMarker(marker.symbol);
+            if (value == null) {
+                continue;
+            }
+            markers.push(<Marker key={marker.symbol} value={value} x={marker.x} y={marker.y} dir={marker.dir} height={marker.height} centerX={marker.centerX}/>);
         }
         return markers;
     }
@@ -116,11 +137,7 @@ export class Node extends React.PureComponent {
             top: this.props.y,
         };
         return (
-            <div
-                className="node"
-                style={style}
-                ref={(node) => this._element = ReactDOM.findDOMNode(node)}
-            >
+            <div className="node" style={style}>
                 <div className="math">
                     <div className="formula-container">
                         {this.marker()}
@@ -131,13 +148,5 @@ export class Node extends React.PureComponent {
                 </div>
             </div>
         );
-    }
-
-    getValueForMarker(symbol) {
-        for (let parameter of Object.values(this.props.parameters)) {
-            if (parameter.symbol === symbol) {
-                return parameter.value;
-            }
-        }
     }
 }
