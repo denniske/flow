@@ -1,4 +1,4 @@
-import {GeogebraParser} from "./util/geogebra-parser";
+import {GeogebraParser} from "./geogebra-parser";
 
 it('parses result with one variable', () => {
     const result = new GeogebraParser().parse("{x = -2, x = 2}");

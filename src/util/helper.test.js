@@ -1,4 +1,4 @@
-import {Helper} from "./util/helper";
+import {Helper} from "./helper";
 
 it('getVariables result with one variable', () => {
     const result = Helper.getVariables("a + b = c");

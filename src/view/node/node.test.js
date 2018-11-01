@@ -1,9 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Node} from "./node";
+import {shallow} from "enzyme";
 
 it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<Node />, div);
-    ReactDOM.unmountComponentAtNode(div);
+    const marker = {};
+    shallow(<Node formula="a+b=c" latex="a+b=c" marker={marker} />);
 });

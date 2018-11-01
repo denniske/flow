@@ -1,5 +1,4 @@
-import {Helper} from "./util/helper";
-import {EquationHelper} from "./util/equation-helper";
+import {EquationHelper} from "./equation-helper";
 
 it('toLatex', () => {
     const result = EquationHelper.toLatex("1.602*10^(-18)");
