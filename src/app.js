@@ -4,14 +4,14 @@ import {merge} from "lodash";
 import {connect} from "react-redux";
 import {NodeActionCreator} from "./actions/node";
 import {ArrayHelper} from "./util/array-helper";
-import {Node} from "./view/node";
+import {Node} from "./view/node/node";
 import {Helper} from "./util/helper";
 import {Parameter} from "./view/parameter";
 import {Constant} from "./view/constant";
 import {EquationHelper} from "./util/equation-helper";
 import {ParameterActionCreator} from "./actions/parameter";
 import {VariableActionCreator} from "./actions/variable";
-import {GeogebraService} from "./util/geogebra-service";
+import {GeogebraService} from "./util/geogebra/geogebra-service";
 import {AssignmentActionCreator} from "./actions/assignment";
 import {ConstantActionCreator} from "./actions/constant";
 

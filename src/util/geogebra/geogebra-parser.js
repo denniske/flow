@@ -1,4 +1,4 @@
-import {RegexHelper} from "./regex-helper";
+import {RegexHelper} from "../regex-helper";
 
 export class GeogebraParser {
     parse(result) {

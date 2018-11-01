@@ -1,9 +1,9 @@
 import React from "react";
-import {MathInput} from "../components/math-input";
-import {REGEX_FORMULA_VARIABLE} from "../constants";
-import {Helper} from "../util/helper";
-import {Marker} from "./marker";
-import {EquationHelper} from "../util/equation-helper";
+import {MathInput} from "../../components/math-input";
+import {REGEX_FORMULA_VARIABLE} from "../../constants";
+import {Helper} from "../../util/helper";
+import {Marker} from "../marker";
+import {EquationHelper} from "../../util/equation-helper";
 
 
 export class Node extends React.PureComponent {
