@@ -1,9 +1,11 @@
 import {EquationHelper} from "../util/equation-helper";
+import {ASSIGNMENT_ACTION} from "./assignment";
 
 export const NODE_ACTION = {
     ADD_NODE: 'ADD_NODE',
     UPDATE_NODE_FORMULA: 'UPDATE_NODE_FORMULA',
     UPDATE_NODE_FORMULA_MARKER: 'UPDATE_NODE_FORMULA_MARKER',
+    ADD_ASSIGNMENT: 'ADD_ASSIGNMENT',
 };
 
 export class NodeActionCreator {
@@ -43,6 +45,17 @@ export class NodeActionCreator {
             payload: {
                 id,
                 marker,
+            }
+        };
+    }
+
+    static addAssignment(id, symbol, parameter) {
+        return {
+            type: NODE_ACTION.ADD_ASSIGNMENT,
+            payload: {
+                id: id,
+                symbol: symbol,
+                parameter: parameter,
             }
         };
     }

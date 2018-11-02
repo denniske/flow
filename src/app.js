@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import MathJax from 'react-mathjax';
 import {merge} from "lodash";
 import {connect} from "react-redux";
 import {NodeActionCreator} from "./actions/node";
@@ -24,56 +23,60 @@ class App extends Component {
         this.handleFormulaMarkerChange = this.handleFormulaMarkerChange.bind(this);
         setTimeout(() => {
             const actions = [
-                ParameterActionCreator.addParameter("m_e", "9.109*10^-31"),
+                // ParameterActionCreator.addParameter("m_e", "9.109*10^-31"),
+                ParameterActionCreator.addParameter("U_A", "10"),
                 ParameterActionCreator.addParameter("U_B", "10"),
+                ParameterActionCreator.addParameter("l", "10"),
+                ParameterActionCreator.addParameter("s", "10"),
+                ParameterActionCreator.addParameter("d", "10"),
 
-                ParameterActionCreator.addParameter("a", "1"),
-                ParameterActionCreator.addParameter("c", "2"),
+                // ParameterActionCreator.addParameter("a", "1"),
+                // ParameterActionCreator.addParameter("c", "2"),
 
-                ConstantActionCreator.addConstant("e", "1.602*10^-19"),
+                // ConstantActionCreator.addConstant("e", "1.602*10^-19"),
 
 
                 // NodeActionCreator.addNode("x^2=4", null, 250, 100),
                 // NodeActionCreator.addNode("a+b=c", null, 250, 100),
                 // NodeActionCreator.addNode("d+e=f", null, 450, 100),
 
-                NodeActionCreator.addNode("1/2 * m * (v)^2 = E_kin", null, 250, 100),
-                AssignmentActionCreator.addAssignment(1, "m", "m_e"),
-                AssignmentActionCreator.addAssignment(1, "v", "v_0"),
+                NodeActionCreator.addNode("1/2 * m * (v)^2 = E", null, 250, 100),
+                NodeActionCreator.addAssignment(1, "m", "m_e"),
+                NodeActionCreator.addAssignment(1, "v", "v_0"),
 
-                NodeActionCreator.addNode("U * e = E_el", null, 250, 300),
-                AssignmentActionCreator.addAssignment(2, "U", "U_B"),
+                NodeActionCreator.addNode("U * e = E", null, 250, 300),
+                NodeActionCreator.addAssignment(2, "U", "U_B"),
 
-                NodeActionCreator.addNode("E_kin = E_el", null, 250, 200),
+                NodeActionCreator.addNode("1 = 1", null, 250, 200),
+
+
+                NodeActionCreator.addNode("F = U/d * e", null, 450, 100),
+                NodeActionCreator.addAssignment(4, "U", "U_A"),
+                NodeActionCreator.addNode("a = F/m", null, 650, 100),
+                NodeActionCreator.addAssignment(5, "a", "a_y"),
+                NodeActionCreator.addAssignment(5, "m", "m_e"),
+                // NodeActionCreator.addNode("s = 1/2 * a * t^2", null, 550, 200),
+                // NodeActionCreator.addAssignment(6, "s", "y_1"),
+                // NodeActionCreator.addAssignment(6, "a", "a_y"),
+                // NodeActionCreator.addAssignment(6, "t", "t_1"),
+                // NodeActionCreator.addNode("t = s/v", null, 450, 300),
+                // NodeActionCreator.addAssignment(7, "t", "t_1"),
+                // NodeActionCreator.addAssignment(7, "v", "v_0"),
+                // NodeActionCreator.addNode("v = a * t", null, 650, 300),
+                // NodeActionCreator.addAssignment(8, "v", "v_y"),
+                // NodeActionCreator.addAssignment(8, "a", "a_y"),
+                // NodeActionCreator.addAssignment(8, "t", "t_1"),
                 //
+                // NodeActionCreator.addNode("t = s/v", null, 250, 500),
+                // NodeActionCreator.addAssignment(9, "t", "t_2"),
+                // NodeActionCreator.addAssignment(9, "s", "l"),
+                // NodeActionCreator.addAssignment(9, "v", "v_0"),
+                // NodeActionCreator.addNode("s = v * t", null, 450, 500),
+                // NodeActionCreator.addAssignment(10, "s", "y_2"),
+                // NodeActionCreator.addAssignment(10, "v", "v_y"),
+                // NodeActionCreator.addAssignment(10, "t", "t_2"),
                 //
-                // NodeActionCreator.addNode("F = U/d * e", 450, 100),
-                // AssignmentActionCreator.addAssignment(4, "U", "U_A"),
-                // NodeActionCreator.addNode("a = F/m", 650, 100),
-                // AssignmentActionCreator.addAssignment(5, "a", "a_y"),
-                // AssignmentActionCreator.addAssignment(5, "m", "m_e"),
-                // NodeActionCreator.addNode("s = 1/2 * a * t^2", 550, 200),
-                // AssignmentActionCreator.addAssignment(6, "s", "y_1"),
-                // AssignmentActionCreator.addAssignment(6, "a", "a_y"),
-                // AssignmentActionCreator.addAssignment(6, "t", "t_1"),
-                // NodeActionCreator.addNode("t = s/v", 450, 300),
-                // AssignmentActionCreator.addAssignment(7, "t", "t_1"),
-                // AssignmentActionCreator.addAssignment(7, "v", "v_0"),
-                // NodeActionCreator.addNode("v = a * t", 650, 300),
-                // AssignmentActionCreator.addAssignment(8, "v", "v_y"),
-                // AssignmentActionCreator.addAssignment(8, "a", "a_y"),
-                // AssignmentActionCreator.addAssignment(8, "t", "t_1"),
-                //
-                // NodeActionCreator.addNode("t = s/v", 250, 500),
-                // AssignmentActionCreator.addAssignment(9, "t", "t_1"),
-                // AssignmentActionCreator.addAssignment(9, "s", "l"),
-                // AssignmentActionCreator.addAssignment(9, "v", "v_0"),
-                // NodeActionCreator.addNode("s = v * t", 450, 500),
-                // AssignmentActionCreator.addAssignment(10, "s", "y_2"),
-                // AssignmentActionCreator.addAssignment(10, "v", "v_y"),
-                // AssignmentActionCreator.addAssignment(10, "t", "t_2"),
-                //
-                // NodeActionCreator.addNode("y_sch = y_1 + y_2", 250, 700),
+                // NodeActionCreator.addNode("y_sch = y_1 + y_2", null, 250, 700),
             ];
             for (const action of actions) {
                 this.props.dispatch(action);
@@ -175,7 +178,7 @@ class App extends Component {
 
     render() {
         return (
-            <MathJax.Provider>
+            <div>
                 {this.nodes()}
                 <div className="constants-container">
                     {/*{this.constants()}*/}
@@ -183,7 +186,7 @@ class App extends Component {
                 <div className="parameters-container">
                     {/*{this.parameters()}*/}
                 </div>
-            </MathJax.Provider>
+            </div>
         );
     }
 }

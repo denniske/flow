@@ -1,8 +1,17 @@
 import {RegexHelper} from "../regex-helper";
 
 export class GeogebraParser {
+    trimWhitespace(str) {
+        return str.replace(/\s/g, "");
+    }
+    replaceSpecialSymbols(str) {
+        return str
+            .replace(/²/g, "^2")
+            .replace(/³/g, "^3");
+    }
     parse(result) {
-        result = result.replace(/\s/g, "");
+        result = this.trimWhitespace(result);
+        result = this.replaceSpecialSymbols(result);
         if (result[0] === "{" && result[1] !== "{") {
             result = "{" + result.replace(",", "},{") + "}";
         }

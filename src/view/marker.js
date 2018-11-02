@@ -23,7 +23,6 @@ export class Marker extends React.Component {
         return (
             <div className="marker" style={style}>
                 <div className="value">
-                    {/*{this.props.value}*/}
                     <MathInput value={latex} />
                 </div>
             </div>

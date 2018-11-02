@@ -26,6 +26,7 @@ code {
     align-items: center;
     width: 200px;
     margin-left: -100px;
+    font-size: 0.65em;
 }
 
 .marker .value {
